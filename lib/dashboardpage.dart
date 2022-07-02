@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -8,7 +10,16 @@ class DashboardPage extends StatefulWidget {
   State<DashboardPage> createState() => _DashboardPageState();
 }
 
-class _DashboardPageState extends State<DashboardPage> {
+class _DashboardPageState extends State<DashboardPage>
+    with SingleTickerProviderStateMixin {
+  TabController? tabController;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    tabController = TabController(length: 4, vsync: this);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,18 +97,50 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
           SizedBox(height: 15.0),
           Container(
-              height: 200.0,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: <Widget>[
-                  _buildListItem('Hamburg', 'assets/burger.png', '21',
-                      Color(0xFFFFE9C6), Color(0xFFDA9551)),
-                  _buildListItem('Chips', 'assets/fries.png', '15',
-                      Color(0xFFC2E3FE), Color(0xFF6A8CAA)),
-                  _buildListItem('Donuts', 'assets/doughnut.png', '15',
-                      Color(0xFFD7FADA), Color(0xFF56CC7E)),
-                ],
-              )),
+            height: 200.0,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                _buildListItem('Hamburg', 'assets/burger.png', '21',
+                    Color(0xFFFFE9C6), Color(0xFFDA9551)),
+                _buildListItem('Chips', 'assets/fries.png', '15',
+                    Color(0xFFC2E3FE), Color(0xFF6A8CAA)),
+                _buildListItem('Donuts', 'assets/doughnut.png', '15',
+                    Color(0xFFD7FADA), Color(0xFF56CC7E)),
+              ],
+            ),
+          ),
+          SizedBox(height: 10),
+          Padding(
+            padding: EdgeInsets.only(
+              left: 15,
+            ),
+            child: TabBar(
+              controller: tabController,
+              isScrollable: true,
+              indicatorColor: Colors.red.withOpacity(0.5),
+              labelColor: Colors.black,
+              unselectedLabelColor: Colors.grey.withOpacity(0.5),
+              labelStyle: GoogleFonts.notoSans(
+                  fontSize: 16.0, fontWeight: FontWeight.w700),
+              unselectedLabelStyle: GoogleFonts.notoSans(
+                  fontSize: 12.0, fontWeight: FontWeight.w500),
+              tabs: [
+                Tab(
+                  child: Text('FEATURED'),
+                ),
+                Tab(
+                  child: Text('COMBO'),
+                ),
+                Tab(
+                  child: Text('FAVORITES'),
+                ),
+                Tab(
+                  child: Text('RECOMMENDED'),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -121,7 +164,9 @@ _buildListItem(String foodName, String imgPath, String price, Color bgColor,
         height: 175.0,
         width: 150.0,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15.0), color: bgColor),
+          borderRadius: BorderRadius.circular(15.0),
+          color: bgColor,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -133,18 +178,28 @@ _buildListItem(String foodName, String imgPath, String price, Color bgColor,
                 decoration:
                     BoxDecoration(color: Colors.white, shape: BoxShape.circle),
                 child: Center(
-                  child: Image.asset(imgPath, height: 50.0, width: 50.0),
+                  child: Image.asset(
+                    imgPath,
+                    height: 50.0,
+                    width: 50.0,
+                  ),
                 ),
               ),
             ),
             SizedBox(height: 25.0),
             Text(
               foodName,
-              style: GoogleFonts.notoSans(fontSize: 17.0, color: textColor),
+              style: GoogleFonts.notoSans(
+                fontSize: 17.0,
+                color: textColor,
+              ),
             ),
             Text(
               '\$' + price,
-              style: GoogleFonts.notoSans(fontSize: 17.0, color: textColor),
+              style: GoogleFonts.notoSans(
+                fontSize: 17.0,
+                color: textColor,
+              ),
             )
           ],
         ),
