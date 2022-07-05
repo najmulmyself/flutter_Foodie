@@ -141,6 +141,13 @@ class _DashboardPageState extends State<DashboardPage>
               ],
             ),
           ),
+          Container(
+            height: MediaQuery.of(context).size.height - 450,
+            child: TabBarView(
+              controller: tabController,
+              children: [],
+            ),
+          )
         ],
       ),
     );
